@@ -1,5 +1,6 @@
 package testsPreconditionsInit;
 
+import com.github.javafaker.Faker;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
@@ -14,12 +15,10 @@ public class TestsPreconditionsInit {
 
     public static Random random;
     public static int randomCity;
-    public static WebDriver driver;
-    public static String propLogin = System.getProperty("login");//
-    public static String propPassword = System.getProperty("password");
-    public static String firstName, lastName, birth, country, city, englishLevel, gender;
-    public static String firstNameLatin = "Stas";
-    public static String lastNameLatin = "Sinitsa";
+    public WebDriver driver;
+    public static String propLogin = "test10.jack@yandex.ru";//System.getProperty("login");
+    public static String propPassword = "Qwerty1234$"; //System.getProperty("password");
+    public static String firstName, lastName, birth, country, city, englishLevel, gender, firstNameLatin, lastNameLatin;
     public static String blogName = "TestJack";
     public static String communicationType1 = "Facebook";
     public static String communicationType2 = "VK";
@@ -32,10 +31,11 @@ public class TestsPreconditionsInit {
     public static HomePage homePage;
     public static RandomGen rand;
     public static CheckElement check;
+    public static Faker faker;
 
 
     @BeforeEach
-    public void webDriverStart(){
+    public void webDriverStart() {
         driver = WebDriverFactory.getDriver();
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
         driver.manage().window().maximize();
@@ -43,8 +43,8 @@ public class TestsPreconditionsInit {
     }
 
     @AfterEach
-    public void exit(){
-        if(driver != null) driver.quit();
+    public void exit() {
+        if (driver != null) driver.quit();
     }
 
     public void pagesObjectsInit() {
@@ -54,6 +54,6 @@ public class TestsPreconditionsInit {
         rand = new RandomGen(driver);
         random = new Random();
         check = new CheckElement(driver);
-
+        faker = new Faker();
     }
 }

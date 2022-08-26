@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import static org.openqa.selenium.By.xpath;
+import static pagesObjects.Locators.EMAIL;
 
 public class Authorization {
     public WebDriver driver;

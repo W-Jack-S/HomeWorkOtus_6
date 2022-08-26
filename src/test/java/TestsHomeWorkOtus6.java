@@ -6,6 +6,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pagesObjects.Authorization;
+import pagesObjects.Locators;
 import testsPreconditionsInit.TestsPreconditionsInit;
 
 import java.time.Duration;
@@ -24,7 +25,7 @@ public class TestsHomeWorkOtus6 extends TestsPreconditionsInit {
         //Авторизоваться на сайте
         auth.authorization(propLogin, propPassword);
         //В разделе "О себе" заполнить все поля "Личные данные"
-        act.moveCursor(xpath("//div[@class='header2__right']//div/div[1]/div[3]"));
+        act.moveCursor(xpath("//div[@class='header2-menu__icon']/../div[3]"));
         act.click(xpath("//a[@title='Личный кабинет']/../a[1]"));
         String[] fName = {"Даниил", "Максим", "Владислав", "Никита", "Артем", "Иван", "Кирилл", "Егор", "Илья", "Андрей"};
         String[] lName = {"Иванов", "Смирнов", "Кузнецов", "Попов", "Васильев", "Петров", "Соколов", "Лазарев", "Медведев", "Ершов"};
@@ -32,6 +33,8 @@ public class TestsHomeWorkOtus6 extends TestsPreconditionsInit {
         int nlName = random.nextInt(lName.length-1);
         firstName = fName[nfName];
         lastName = lName[nlName];
+        firstNameLatin = faker.name().firstName();
+        lastNameLatin = faker.name().lastName();
         birth = rand.genBirth();
         act.textInput(id("id_fname"),firstName);
         act.textInput(id("id_lname"),lastName);
@@ -46,9 +49,8 @@ public class TestsHomeWorkOtus6 extends TestsPreconditionsInit {
         int randomCountry = random.nextInt(nCountry)+ 2;
         act.click(xpath("//input[@name='country']/../../div/div/button[" + randomCountry + "]"));
         country = driver.findElement(xpath("//input[@name='country']/../div")).getText();
-        waitElement(xpath("//input[@name='city']/../div"));
+        act.waitElement(xpath("//input[@name='city']/../div"));
 
-        Thread.sleep(500);
         act.click(xpath("//input[@name='city']/../div"));
         List<WebElement> citys = driver.findElements(By.xpath("//input[@name='city']/../../div/div/button"));
         int nCity = citys.size()-2;
@@ -56,12 +58,13 @@ public class TestsHomeWorkOtus6 extends TestsPreconditionsInit {
         else randomCity = 2;
         act.click(xpath("//input[@name='city']/../../div/div/button[" + randomCity + "]"));
         city = driver.findElement(xpath("//input[@name='city']/../div")).getText();
-        waitElement(xpath("//input[@name='english_level']/../div"));
+        act.waitElement(xpath("//input[@name='english_level']/../div"));
 
-        Thread.sleep(500);
         act.click(xpath("//input[@name='english_level']/../div"));
-        int englishLevels = random.nextInt(6)+2;
-        act.click(xpath("//input[@name='english_level']/../../div/div/button[" + englishLevels + "]"));
+        List<WebElement> englishLevels  = driver.findElements(By.xpath("//input[@name='english_level']/../../div/div/button"));
+        int nEnglishLevels = englishLevels.size()-2;
+        int randomEnglishLevels = random.nextInt(nEnglishLevels)+2;
+        act.click(xpath("//input[@name='english_level']/../../div/div/button[" + randomEnglishLevels + "]"));
         englishLevel = driver.findElement(xpath("//input[@name='english_level']/../div")).getText();
 
         Thread.sleep(500);
@@ -113,7 +116,7 @@ public class TestsHomeWorkOtus6 extends TestsPreconditionsInit {
         homePage.open();
         //Войти в личный кабинет
         auth.authorization(propLogin, propPassword);
-        act.click(xpath("//div[@class='header2__right']//div/div[1]/div[3]"));
+        act.click(xpath("//div[@class='header2-menu__icon']/../div[3]"));
         act.click(xpath("//a[@title='Личный кабинет']/../a[1]"));
         //Проверить, что в разделе "О себе" отображаются указанные ранее данные
         check.input(id("id_fname"),firstName);
@@ -131,12 +134,6 @@ public class TestsHomeWorkOtus6 extends TestsPreconditionsInit {
         check.input(id("id_contact-1-value"),communicationAddress2);
         check.input(id("id_company"),company);
         check.input(id("id_work"),work);
-    }
-
-
-    public static void waitElement(By elementBy){
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.elementToBeClickable(elementBy));
     }
 
 }
